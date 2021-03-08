@@ -1,0 +1,204 @@
+﻿
+@model Ch24ShoppingCartMVC.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    <link href="~/Content/Checkout.css" rel="stylesheet" />
+}
+
+@{int i = 1;
+    decimal subPrice = 0;
+    decimal salesTax = 0.075M;
+    decimal shipping = 3.5M;
+    decimal totalPrice = 0;}
+
+<h3>Your Order</h3>
+<div>
+    <table>
+        @if (Model.Cart == null || !Model.Cart.Any())
+        {
+            <tr><th colspan="5">You have nothing in your cart yet.</th></tr>
+        }
+        else
+        {
+            <tr>
+                <th width="10%" align="left">No.</th>
+                <th width="20%" align="left">Product</th>
+                <th width="20%" align="left">Price</th>
+                <th width="20%" align="left">Quantity</th>
+                <th width="20%" align="left">Subtotal</th>
+            </tr>
+
+            foreach (var item in @Model.Cart)
+            {
+                <tr>
+                    <td width="10%">@i</td>
+                    <td width="20%">@item.Name</td>
+                    <td width="20%" align="center">@item.UnitPrice.ToString("c")</td>
+                    <td width="20%" align="center">@item.Quantity</td>
+                    <td width="20%" align="center">@((@item.UnitPrice * @item.Quantity).ToString("c"))</td>
+                </tr>
+
+                i++;
+                subPrice += (@item.UnitPrice * @item.Quantity);
+            }
+            <tr>
+                <th colspan="4" align="right">Subtotal</th>
+                <td width="20%" align="center">@subPrice.ToString("c")</td>
+            </tr>
+            <tr>
+                <th colspan="4" align="right">Sales Tax</th>
+                <td width="20%" align="center">@((@subPrice * @salesTax).ToString("c"))</td>
+            </tr>
+            <tr>
+                <th colspan="4" align="right">Shipping Cost</th>
+                <td width="20%" align="center">@shipping.ToString("c")</td>
+            </tr>
+            totalPrice = subPrice + shipping + subPrice * salesTax;
+            <tr>
+                <th colspan="4" align="right">Total</th>
+                <td width="20%" align="center">@totalPrice.ToString("c")</td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    @using (Html.BeginForm("Submit", "Checkout", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <table>
+                            <tr>
+                                <td colspan="5"><h3>Shipping Details</h3></td>
+                            </tr>
+                            <tr>
+                                <td width="20%"> First Name</td>
+                                <td width="20%"><input type="text" name="fName" data-val="true" data-val-required="First Name is required." /></td>
+                                <td width="20%"></td>
+                                <td width="20%">Last Name</td>
+                                <td width="20%"><input type="text" name="lName" data-val="true" data-val-required="Last Name is required." /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("fName")
+                                </td>
+                                <td width="20%"></td>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("lName")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Email</td>
+                                <td colspan="4"><input id="email" type="text" name="email" data-val="true" data-val-required="Email is required." data-val-email="Invalid Email."></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    @Html.ValidationMessage("email")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Address</td>
+                                <td colspan="4"><input id="address" type="text" name="address" data-val="true" data-val-required="Address is required."></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    @Html.ValidationMessage("address")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">City</td>
+                                <td width="20%"><input type="text" name="city" data-val="true" data-val-required="City is required."></td>
+                                <td width="20%"></td>
+                                <td width="20%">State</td>
+                                <td width="20%"><input type="text" name="state" data-val="true" data-val-required="State is required."></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("city")
+                                </td>
+                                <td width="20%"></td>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("state")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Zip Code</td>
+                                <td width="20%"><input type="text" name="zipCode" data-val="true" data-val-required="Zip Code is required."></td>
+                                <td width="20%"></td>
+                                <td width="20%">Contact no.</td>
+                                <td width="20%"><input type="text" name="contact" data-val="true" data-val-required="Contact is required."></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("zipCode")
+                                </td>
+                                <td width="20%"></td>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("contact")
+                                </td>
+                            </tr>
+                            <tr><td colspan="5"><h3>Payment Options</h3></td></tr>
+                            <tr>
+                                <td colspan="2" width="40%" align="center">
+                                    <select id="card" name="card" data-val="true" data-val-required="Select an option.">
+                                        <option value="Visa">Visa</option>
+                                        <option value="MasterCard">MasterCard</option>
+                                        <option value="PayPal">PayPal</option>
+                                    </select>
+                                </td>
+                                <td width="20%"></td>
+                                <td width="20%">Card Type</td>
+                                <td width="20%" align="center">
+                                    <select id="cardType" name="cardType" data-val="true" data-val-required="Select an option.">
+                                        <option value="credit">Credit</option>
+                                        <option value="debit">Debit</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("card")
+                                </td>
+                                <td width="20%"></td>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("cardType")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Card Number</td>
+                                <td width="20%"><input type="text" name="cardNumber" data-val="true" data-val-required="Enter your card number."></td>
+                                <td width="20%"></td>
+                                <td width="20%">PIN</td>
+                                <td width="20%"><input type="password" name="cardPin" data-val="true" data-val-required="Enter your pin number"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("cardNumber")
+                                </td>
+                                <td width="20%"></td>
+                                <td colspan="2" width="40%">
+                                    @Html.ValidationMessage("cardPin")
+                                </td>
+                            </tr>
+                            <tr><td><input type="submit" name="checkout" value="Checkout" /></td></tr>
+                        </table>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section Validation{
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}

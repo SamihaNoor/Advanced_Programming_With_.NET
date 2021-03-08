@@ -32,3 +32,6 @@ when the user clicks the button to check out */
 #message {
     color: Green;
 }
+#card, #cardType {
+    width: 15em;
+}

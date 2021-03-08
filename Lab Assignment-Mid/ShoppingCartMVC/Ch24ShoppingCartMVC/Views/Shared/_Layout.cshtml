@@ -24,6 +24,7 @@
                 <li>@Html.ActionLink("Home", "Index/", "Home")</li>
                 <li>@Html.ActionLink("Order", "Index/", "Order")</li>
                 <li>@Html.ActionLink("Cart", "List/", "Cart")</li>
+                <li>@Html.ActionLink("Checkout", "Index/", "Checkout")</li>
                 <li>@Html.ActionLink("Contract Us", "Contact/", "Home")</li>
                 @* ______________________________________________*@
             </ul>
@@ -39,5 +40,6 @@
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/halloween.js" type="text/javascript"></script>
     @RenderSection("scripts", required: false)
+    @RenderSection("Validation", required: false)
 </body>
 </html>
