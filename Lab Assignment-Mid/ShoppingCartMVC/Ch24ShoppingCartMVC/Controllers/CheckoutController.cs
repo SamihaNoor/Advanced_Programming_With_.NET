@@ -42,6 +42,7 @@ namespace Ch24ShoppingCartMVC.Controllers
         [HttpPost]
         public ActionResult Submit()
         {
+            Session.Clear();
             return RedirectToAction("Checkout", "Checkout");
         }
 

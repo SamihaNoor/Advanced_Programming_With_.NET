@@ -114,7 +114,7 @@
                                 <td width="20%"><input type="text" name="city" data-val="true" data-val-required="City is required."></td>
                                 <td width="20%"></td>
                                 <td width="20%">State</td>
-                                <td width="20%"><input type="text" name="state" data-val="true" data-val-required="State is required."></td>
+                                <td width="20%"><input type="text" name="state" data-val="true" data-val-required="State is required." data-val-length-max="3" data-val-length="Please re-check the state you have entered."></td>
                             </tr>
                             <tr>
                                 <td colspan="2" width="40%">
@@ -127,10 +127,10 @@
                             </tr>
                             <tr>
                                 <td width="20%">Zip Code</td>
-                                <td width="20%"><input type="text" name="zipCode" data-val="true" data-val-required="Zip Code is required."></td>
+                                <td width="20%"><input type="text" name="zipCode" data-val="true" data-val-required="Zip Code is required." data-val-range-max="99999" data-val-range="Please check the zip code again."></td>
                                 <td width="20%"></td>
                                 <td width="20%">Contact no.</td>
-                                <td width="20%"><input type="text" name="contact" data-val="true" data-val-required="Contact is required."></td>
+                                <td width="20%"><input type="text" name="contact" data-val="true" data-val-required="Contact is required." data-val-range-max="99999999999" data-val-range="Please check the contact number again."></td>
                             </tr>
                             <tr>
                                 <td colspan="2" width="40%">
@@ -170,10 +170,10 @@
                             </tr>
                             <tr>
                                 <td width="20%">Card Number</td>
-                                <td width="20%"><input type="text" name="cardNumber" data-val="true" data-val-required="Enter your card number."></td>
+                                <td width="20%"><input type="text" name="cardNumber" data-val="true" data-val-required="Enter your card number." data-val-range-max="9999999999999" data-val-range="Please check the number again."></td>
                                 <td width="20%"></td>
                                 <td width="20%">PIN</td>
-                                <td width="20%"><input type="password" name="cardPin" data-val="true" data-val-required="Enter your pin number"></td>
+                                <td width="20%"><input type="password" name="cardPin" data-val="true" data-val-required="Enter your pin number." data-val-range-max="9999" data-val-range="Please enter your pin correctly."></td>
                             </tr>
                             <tr>
                                 <td colspan="2" width="40%">
